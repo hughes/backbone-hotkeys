@@ -1,0 +1,6 @@
+[submodule "vendor/underscore"]
+	path = vendor/underscore
+	url = git@github.com:jashkenas/underscore.git
+[submodule "vendor/backbone"]
+	path = vendor/backbone
+	url = git@github.com:jashkenas/backbone.git

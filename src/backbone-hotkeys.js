@@ -10,24 +10,24 @@
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD
-        define(['jquery', 'underscore', 'backbone'], factory);
+        define(['underscore', 'backbone'], factory);
     } else {
         // globals
-        factory(jQuery, _, Backbone);
+        factory(_, Backbone);
     }
-}(function (jQuery, _, Backbone) {
+}(function (_, Backbone) {
     'use strict';
 
     var Hotkeys = {};
     _.extend(Hotkeys, Backbone.Events);
 
     Hotkeys.keyPressHandler = function (e) {
-        var char = String.fromCharCode(e.keyCode || e.charCode);
-        console.log(char);
+        var pressed_char = String.fromCharCode(e.keyCode || e.charCode);
+        console.log(pressed_char);
     };
 
     Backbone.Hotkeys = Hotkeys;
-    jquery(document).on('keypress', Hotkeys.keyPressHandler);
+    document.onkeypress = Hotkeys.keyPressHandler;
 
     return Backbone;
 }));
