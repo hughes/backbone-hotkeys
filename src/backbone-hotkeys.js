@@ -22,20 +22,24 @@
         oldKeyDownHandler = document.onkeydown,
         oldKeyUpHandler = document.onkeyup,
         oldKeyPressHandler = document.onkeypress,
-        CONST,
-        translate;
-
-    CONST = {
-        shift: 16,
-        ctrl: 17,
-        alt: 18
-    };
+        oldDelegateEvents = Backbone.View.prototype.delegateEvents,
+        oldUndelegateEvents = Backbone.View.prototype.undelegateEvents;
 
     _.extend(Hotkeys, Backbone.Events);
 
-    translate = function (code) {
-        var names = _.keys(CONST),
-            codes = _.values(CONST),
+    Hotkeys.CONST = {
+        shift: 16,
+        ctrl: 17,
+        alt: 18,
+        left: 37,
+        up: 38,
+        right: 39,
+        down: 40
+    };
+
+    Hotkeys.translate = function (code) {
+        var names = _.keys(Hotkeys.CONST),
+            codes = _.values(Hotkeys.CONST),
             index = codes.indexOf(code);
 
         if (index > -1) {
@@ -48,8 +52,9 @@
     };
 
     Hotkeys.keyDownHandler = function (e) {
-        var key = translate(e.keyCode || e.which),
-            result = [];
+        var key = Hotkeys.translate(e.keyCode || e.which),
+            result = [],
+            event;
 
         // modifier keys
         if (e.ctrlKey) {
@@ -67,7 +72,8 @@
         // remove duplicates (ctrl+ctrl)
         result = _.uniq(result);
 
-        Hotkeys.trigger(result.join('+'));
+        event = result.join('+');
+        Hotkeys.trigger(event, [event]);
 
         if (_.isFunction(oldKeyDownHandler)) {
             oldKeyDownHandler.call(this, e);
@@ -89,6 +95,28 @@
         return;
     };
 
+    // Backbone.View modifications
+    Hotkeys.View = Backbone.View.extend({
+        delegateEvents: function () {
+            var hotkeys = this.hotkeys || _.result(this, 'hotkeys'),
+                result = oldDelegateEvents.apply(this, arguments);
+            if (hotkeys) {
+                _.each(hotkeys, function (method, event) {
+                    if (!_.isFunction(method)) {
+                        method = this[method];
+                    }
+                    this.listenTo(Backbone.Hotkeys, event, method, this);
+                }.bind(this));
+            }
+            return result;
+        },
+        undelegateEvents: function () {
+            this.stopListening(Backbone.Hotkeys);
+            return oldUndelegateEvents.apply(this, arguments);
+        }
+    });
+
+    // final initialization
     document.onkeydown = Hotkeys.keyDownHandler;
     document.onkeyup = Hotkeys.keyUpHandler;
     document.onkeypress = Hotkeys.keyPressHandler;
