@@ -8,6 +8,17 @@ A plugin for Backbone that extends `Backbone.View` to add more flexible hotkey-l
 npm install backbone-hotkeys
 ```
 
+## Developer setup
+
+```
+git clone git@github.com:hughes/backbone-hotkeys.git
+cd backbone-hotkeys
+npm install
+git submodule init
+git submodule update
+npm test
+```
+
 # Setup
 
 Include `backbone-hotkeys.js` in your app either by requirejs/AMD or global installation via a `<script>` tag.
