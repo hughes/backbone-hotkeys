@@ -110,14 +110,16 @@
     Hotkeys.View = Backbone.View.extend({
         delegateEvents: function () {
             var hotkeys = this.hotkeys || _.result(this, 'hotkeys'),
-                result = oldDelegateEvents.apply(this, arguments);
+                result = oldDelegateEvents.apply(this, arguments),
+                that = this;
+
             if (hotkeys) {
                 _.each(hotkeys, function (method, event) {
                     if (!_.isFunction(method)) {
-                        method = this[method];
+                        method = that[method];
                     }
-                    this.listenTo(Backbone.Hotkeys, event, method, this);
-                }.bind(this));
+                    that.listenTo(Backbone.Hotkeys, event, method, this);
+                });
             }
             return result;
         },
