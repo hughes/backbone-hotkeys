@@ -1,4 +1,4 @@
-# backbone-hotkeys
+# backbone-hotkeys ![](https://api.travis-ci.org/hughes/backbone-hotkeys.png)
 
 A plugin for Backbone that extends `Backbone.View` to add more flexible hotkey-like bindings
 
