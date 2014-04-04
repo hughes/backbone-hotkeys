@@ -1,18 +1,20 @@
-# backbone-hotkeys ![](https://api.travis-ci.org/hughes/backbone-hotkeys.png)
+## Deprecated project
+
+You might be looking for [backbone-hotkeys](https://github.com/rpocklin/backbone-hotkeys).
+
+# backbone-keyboard ![](https://api.travis-ci.org/hughes/backbone-hotkeys.png)
 
 A plugin for Backbone that extends `Backbone.View` to add more flexible hotkey-like bindings
 
 # Installation
 
-```
-npm install backbone-hotkeys
-```
+n/a
 
 ## Developer setup
 
 ```
-git clone git@github.com:hughes/backbone-hotkeys.git
-cd backbone-hotkeys
+git clone git@github.com:hughes/backbone-keyboard.git
+cd backbone-keyboard
 npm install
 git submodule init
 git submodule update
